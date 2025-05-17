@@ -2,23 +2,26 @@ from textwrap import dedent
 from agno.agent import Agent
 from agno.tools.serpapi import SerpApiTools
 import streamlit as st
-from agno.models.openai import OpenAIChat
+from agno.models.google import Gemini
+import os
+from dotenv import load_dotenv
 
 # Set up the Streamlit app
 st.title("AI Travel Planner ✈️")
 st.caption("Plan your next adventure with AI Travel Planner by researching and planning a personalized itinerary on autopilot using GPT-4o")
 
-# Get OpenAI API key from user
-openai_api_key = st.text_input("Enter OpenAI API Key to access GPT-4o", type="password")
+# Load environment variables from .env file
+load_dotenv()
 
-# Get SerpAPI key from the user
-serp_api_key = st.text_input("Enter Serp API Key for Search functionality", type="password")
+# Fetch API keys from environment variables
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+serp_api_key = os.getenv("SERP_API_KEY")
 
-if openai_api_key and serp_api_key:
+if gemini_api_key and serp_api_key:
     researcher = Agent(
         name="Researcher",
         role="Searches for travel destinations, activities, and accommodations based on user preferences",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=Gemini(id="gemini-2.0-flash", api_key=gemini_api_key),
         description=dedent(
             """\
         You are a world-class travel researcher. Given a travel destination and the number of days the user wants to travel for,
@@ -38,7 +41,7 @@ if openai_api_key and serp_api_key:
     planner = Agent(
         name="Planner",
         role="Generates a draft itinerary based on user preferences and research results",
-        model=OpenAIChat(id="gpt-4o", api_key=openai_api_key),
+        model=Gemini(id="gemini-2.0-flash", api_key=gemini_api_key),
         description=dedent(
             """\
         You are a senior travel planner. Given a travel destination, the number of days the user wants to travel for, and a list of research results,
