@@ -8,8 +8,3 @@ def send_telegram_message(message, bot_token=TELEGRAM_BOT_TOKEN, chat_id=TELEGRA
         'text': message
     }
     response = requests.post(url, data=payload)
-    if response.status_code == 200:
-        print("Telegram message sent successfully!")
-    else:
-        print(f"Failed to send Telegram message: {response.text}")
-
