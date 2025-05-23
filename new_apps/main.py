@@ -11,10 +11,10 @@ def main():
     summary = summarizer(news_results)
     send_telegram_message(summary)
 
-def scheduled_job():
-    news = fetch_news()
-    summary = summarizer(news)
-    send_telegram_message(summary)
+# def scheduled_job():
+#     news = fetch_news()
+#     summary = summarizer(news)
+#     send_telegram_message(summary)
 
 
 if __name__ == "__main__":
