@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Topic & Phone Submission</title>
+</head>
+<body>
+    <h2>Submit News Topic and Phone Number</h2>
+    <form id="newsForm">
+        <label for="search_topic">Search Topic:</label>
+        <input type="text" id="search_topic" name="search_topic" required><br><br>
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required pattern="\d+"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        document.getElementById('newsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const topic = document.getElementById('search_topic').value;
+            const phone = document.getElementById('phone_number').value;
+
+            // Replace with your actual ngrok or server URL
+            const apiUrl = '/summarize_and_send';
+            // const apiUrl = 'https://41ca-106-51-164-224.ngrok-free.app/summarize_and_send';
+
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = "Submitting...";
+
+            try {
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        keyword: topic,
+                        phone_number: phone
+                    })
+                });
+                const data = await res.json();
+                responseDiv.textContent = data.message || JSON.stringify(data);
+            } catch (err) {
+                responseDiv.textContent = "Error: " + err;
+            }
+        });
+    </script>
+</body>
+</html>

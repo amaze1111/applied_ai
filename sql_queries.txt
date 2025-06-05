@@ -1,0 +1,9 @@
+Schema details of tables created at Supabase - 
+
+Table  1 - Users information
+
+create table public.news_users (
+  topics_of_interest text not null,
+  phone_number text not null,
+  constraint news_users_pkey primary key (phone_number)
+) TABLESPACE pg_default;
